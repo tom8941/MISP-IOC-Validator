@@ -4,7 +4,7 @@ The main purpose is to validate format of the different IOC from MISP, but a lot
 
 **Features:**
 - IOC validation (format, false positive iocs, ...)
-- Export the IOC and the result of the validation of the IOC in format
+- Export the IOC and the result of the validation of the IOC in CEF format
 - Send the ioc and the result of the check to a syslog server
 - Validate and export YARA and SNORT rules in a file that can be automaticaly integrated to FireEye sensors or SourceFire Snort
 - ...
