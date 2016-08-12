@@ -1,6 +1,6 @@
 # MISP-IOC-Validator
 
-The main purpose is to validate format of the different IOC from MISP and to remove false positive by comparing these IOC to existing known false positive. There is however a lot of other features are available.
+The main purpose is to validate the format of the different IOC from MISP and to remove false positive by comparing these IOC to existing known false positive (known SHA1 or SHA256 of a file, ...). There is however a lot of other features available.
 
 **Features:**
 - IOC validation (format, detect false positive iocs, ...)
