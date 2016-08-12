@@ -14,7 +14,7 @@ More information coming soon...
 
 ## External Source
 
-MISP : https://github.com/MISP/MISP
-PyMISP module : https://github.com/CIRCL/PyMISP
-Netaddr module : https://pypi.python.org/pypi/netaddr
-Python-dumbpig : https://github.com/MrJester/python-dumbpig
+- MISP : https://github.com/MISP/MISP
+- PyMISP module : https://github.com/CIRCL/PyMISP
+- Netaddr module : https://pypi.python.org/pypi/netaddr
+- Python-dumbpig : https://github.com/MrJester/python-dumbpig
