@@ -20,7 +20,6 @@ from dataload import *
 import time
 import smtplib
 import sys
-import argparse
 import csv
 import re
 
