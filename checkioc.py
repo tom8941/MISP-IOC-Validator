@@ -12,7 +12,6 @@ import time
 import socket
 from datetime import timedelta, date, datetime
 from shutil import copyfile
-import ast
 import dumbpig
 from cef import *
 from ioctest import *
