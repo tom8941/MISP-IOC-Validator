@@ -13,9 +13,9 @@ The main purpose is to validate the format of the different IOC from MISP and to
 ## Prerequiste
 
 - install of the following modules:
-* PyMISP module : https://github.com/CIRCL/PyMISP
-* Netaddr module : https://pypi.python.org/pypi/netaddr
-* Python-dumbpig : https://github.com/MrJester/python-dumbpig
+ - PyMISP module : https://github.com/CIRCL/PyMISP
+ - Netaddr module : https://pypi.python.org/pypi/netaddr
+ - Python-dumbpig : https://github.com/MrJester/python-dumbpig
 - Create source files used in sourcefilelist.py. These files should contains the list of false positive.
  
 I will try to create a setup file when possible.
