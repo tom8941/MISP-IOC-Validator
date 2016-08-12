@@ -29,9 +29,8 @@ I will try to create a setup file when possible.
 ```
 -v, --verbose : Print the result of each test of attributes. The format used is a CEF syslog format that can be translated by a SIEM
 -q, --quiet   : Suppress all outputs (Useful when running in background)
-
-If none of them have been selected, you will just have outputs of what is processing (timeframe and number of ioc processed)
 ```
+If none of them have been selected, you will just have outputs of what is processing (timeframe and number of ioc processed)
 
 **Check the IOC from MISP of the last day**
 
