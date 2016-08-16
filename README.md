@@ -18,6 +18,7 @@ The main purpose is to validate the format of the different IOC from MISP and to
  - Python-dumbpig : https://github.com/MrJester/python-dumbpig
  - Python yara module : https://github.com/plusvic/yara
 - Create source files used in sourcefilelist.py. These files should contains the list of false positive.
+ - The default list available are more or less empty, so you have to enter you own values. 
 - Configure keys.py. Please check https://github.com/CIRCL/PyMISP for more details.
 - Configure mail in checkioc.py : MAIL_FROM and MAIL_SERVER.
  
@@ -158,3 +159,5 @@ More information coming soon...
 - Netaddr module : https://pypi.python.org/pypi/netaddr
 - Python-dumbpig : https://github.com/MrJester/python-dumbpig
 - yara : https://github.com/plusvic/yara
+- TLDS : http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+
