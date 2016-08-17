@@ -116,7 +116,7 @@ parameter : -y YARA_EXPORT_PATH, --yara_export_path  Valid yara rules export fil
 
 **Check the IOC from MISP of the last day and export snort rules to a file**
 
-The snort rules from MISP which are valid according to the analyser. Please note that it modifies the version and the ID in order to have something locally unique that can be sent to a snort.
+The snort rules from MISP which are valid according to the analyser. Please note that it modifies the version and the ID in order to have something locally unique that can be sent to a snort. The name of the rule will also have [MISP] as prefix.
 ```
 parameter : -l, --last
 parameter : -z SNORT_EXPORT_PATH, --snort_export_path SNORT_EXPORT_PATH  Valid snort rules export file path 
