@@ -151,8 +151,6 @@ parameter :  -a ATTRIBUTE_TRACKING, --attribute_tracking ATTRIBUTE_TRACKING   th
 ./checkioc.py -l 1d -a /opt/ioc_tracked.txt
 ```
 
-More information coming soon... 
-
 ## External Source
 
 - MISP : https://github.com/MISP/MISP
