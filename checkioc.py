@@ -219,7 +219,7 @@ def check_last(misp, last="1d", datasrc_dict=None, allowed_attribute_set=None, q
             j+=1
             if yara_export_file is not None and result['result'] == 'OK':
                 if result['attribute_dict']['type'] == 'yara':
-                    _export_yara(result['attribute_dict']['value'], yara_export_file)
+                    _export_yara(result['attribute_dict']['value'], yara_export_file,datasrc_dict['yara_export_except'])
 
             if snort_export_file is not None and result['result'] == 'OK':
                 if result['attribute_dict']['type'] == 'snort':
@@ -268,7 +268,7 @@ def sliced_search(misp, date_from=None, date_to=None, day_slice=1, time_wait=0, 
                 j+=1
                 if yara_export_file is not None and result['result'] == 'OK':
                     if result['attribute_dict']['type'] == 'yara':
-                        _export_yara(result['attribute_dict']['value'], yara_export_file)
+                        _export_yara(result['attribute_dict']['value'], yara_export_file,datasrc_dict['yara_export_except'])
 
                 if snort_export_file is not None and result['result'] == 'OK':
                     if result['attribute_dict']['type'] == 'snort':
