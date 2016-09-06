@@ -44,6 +44,7 @@ def import_external_sources(attribute_set):
     data['microsoftip'] = frozenset(line.strip() for line in open(microsoft_ip_list_filepath))
     data['alexa_all'] = frozenset(line.lower().strip() for line in open(alexa_list_filepath))  #full alexa list
     data['alexa_except'] = frozenset(line.lower().strip() for line in open(alexa_exception_list_filepath)) #dyndns ips
+    data['yara_export_except'] = frozenset(line.strip() for line in open(yara_export_exception_list_filepath)) #list of names of yara rules to discard from export
 
     data['alexa'] = data['alexa_all'] - data['alexa_except'] # remove elements from except list
    
