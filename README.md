@@ -112,6 +112,9 @@ parameter : -l, --last
 parameter : -y YARA_EXPORT_PATH, --yara_export_path  Valid yara rules export file path 
 
 ./checkioc.py -l 1d -y /opt/valid_yara.txt
+
+You can populate yara-export-discarded.txt file if you need to discard some rules from the export.
+This file contains yara rule names (1 per line) of rules that should be discarded.
 ```
 
 **Check the IOC from MISP of the last day and export snort rules to a file**
