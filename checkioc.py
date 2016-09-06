@@ -98,19 +98,20 @@ def _create_date_list(start, end, delta):
 
     return datelist
 
-def _export_yara(yara_rule,yara_file):
-    '''Write yara_rule in yara_file 
+def _export_yara(yara_rule,yara_file,yara_except_set):
+    '''Write yara_rule in yara_file
 
     yara_rule -- Yara rule to write.
     yara_file -- File to write.
+    yara_except_set -- Set of yara rules to discard from the export.
     '''
     yara_name_match = re.search('^(private|global| )*rule\s*\w*',yara_rule,re.MULTILINE)
 
-    if yara_name_match: 
+    if yara_name_match:
         yara_name = yara_name_match.group().replace('rule','').strip(' \t\n\r')
         yara_name_match_import = re.search('^import',yara_rule,re.MULTILINE)
         if not yara_name_match_import:
-            if yara_name not in yara_processed: #avoid duplicates
+            if yara_name not in yara_processed and yara_name not in yara_except_set: #avoid duplicates and unwanted rules
                 yara_processed.add(yara_name)
                 yara_export_file.write(yara_rule)
                 yara_export_file.write('\n')
