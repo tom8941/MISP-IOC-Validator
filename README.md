@@ -110,6 +110,8 @@ parameter : -p PORT, --port PORT  Syslog server port (udp)
 **Check the IOC (md5 and sha1) from MISP of the last day and export iocs to a STIX file**
 
 Check the ioc from MISP which are valid according to the analyser and export ioc to STIX file. (Only hashes for the moment)
+
+The indicator title is the misp attribute id of the IOC.
 ```
 parameter : -l, --last
 parameter : -x STIX_EXPORT_PATH, --stix_export_path STIX_EXPORT_PATH  Valid ioc STIX format file path (only for hashes) 
