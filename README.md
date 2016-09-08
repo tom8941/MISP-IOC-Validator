@@ -17,7 +17,7 @@ The main purpose is to validate the format of the different IOC from MISP and to
  - PyMISP module : https://github.com/CIRCL/PyMISP
  - Netaddr module : https://pypi.python.org/pypi/netaddr
  - Python-dumbpig : https://github.com/MrJester/python-dumbpig
- - Python yara module : https://github.com/plusvic/yara
+ - Python yara module : https://github.com/VirusTotal/yara
  - STIX : https://stixproject.github.io/
  - CybOX : https://cyboxproject.github.io/ 
 - Create source files used in sourcefilelist.py. These files should contains the list of false positive.
@@ -175,7 +175,7 @@ parameter :  -a ATTRIBUTE_TRACKING, --attribute_tracking ATTRIBUTE_TRACKING   th
 - PyMISP module : https://github.com/CIRCL/PyMISP
 - Netaddr module : https://pypi.python.org/pypi/netaddr
 - Python-dumbpig : https://github.com/MrJester/python-dumbpig
-- yara : https://github.com/plusvic/yara
+- yara : https://github.com/VirusTotal/yara
 - STIX : https://stixproject.github.io/
 - CybOX : https://cyboxproject.github.io/ 
 - TLDS : http://data.iana.org/TLD/tlds-alpha-by-domain.txt
