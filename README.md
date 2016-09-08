@@ -18,13 +18,15 @@ The main purpose is to validate the format of the different IOC from MISP and to
  - Netaddr module : https://pypi.python.org/pypi/netaddr
  - Python-dumbpig : https://github.com/MrJester/python-dumbpig
  - Python yara module : https://github.com/plusvic/yara
+ - STIX : https://stixproject.github.io/
+ - CybOX : https://cyboxproject.github.io/ 
 - Create source files used in sourcefilelist.py. These files should contains the list of false positive.
  - The default list available are more or less empty, so you have to enter you own values, here ares some references :
   - http://data.iana.org/TLD/tlds-alpha-by-domain.txt
   - http://s3.amazonaws.com/alexa-static/top-1m.csv.zip
   - http://www.nsrl.nist.gov/Downloads.htm
 - Configure keys.py. Please check https://github.com/CIRCL/PyMISP for more details.
-- Configure mail in checkioc.py : MAIL_FROM and MAIL_SERVER.
+- Configure mail in checkioc.py : MAIL_FROM and MAIL_SERVER. 
 
 ## Usage and Examples
 
@@ -172,4 +174,6 @@ parameter :  -a ATTRIBUTE_TRACKING, --attribute_tracking ATTRIBUTE_TRACKING   th
 - Netaddr module : https://pypi.python.org/pypi/netaddr
 - Python-dumbpig : https://github.com/MrJester/python-dumbpig
 - yara : https://github.com/plusvic/yara
+- STIX : https://stixproject.github.io/
+- CybOX : https://cyboxproject.github.io/ 
 - TLDS : http://data.iana.org/TLD/tlds-alpha-by-domain.txt
