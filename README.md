@@ -8,6 +8,7 @@ The main purpose is to validate the format of the different IOC from MISP and to
 - Send the ioc and the result of the check to a syslog server
 - Validate and export YARA and SNORT rules in a file that can be automaticaly integrated to FireEye sensors or SourceFire Snort
 - Send results of IOC check by mail that give the reason of the error with the IOC that didn't pass the checks.
+- STIX format export (only hashes for the moment)
 - ...
 
 ## Prerequisite
@@ -104,9 +105,19 @@ parameter : -p PORT, --port PORT  Syslog server port (udp)
 ./checkioc.py -l 1d -i 10.0.0.1 -p 514 -v
 ```
 
+**Check the IOC (md5 and sha1) from MISP of the last day and export iocs to a STIX file**
+
+Check the ioc from MISP which are valid according to the analyser and export ioc to STIX file. (Only hashes for the moment)
+```
+parameter : -l, --last
+parameter :   -x STIX_EXPORT_PATH, --stix_export_path STIX_EXPORT_PATH  Valid ioc STIX format file path (only for hashes) 
+
+./checkioc.py -l 1d -o md5 sha1 -x /opt/stix_ioc.xml
+```
+
 **Check the IOC from MISP of the last day and export yara rules to a file**
 
-The yara rules from MISP which are valid according to the analyser. Please note that we also consider import of modules and some other syntax as wrong because it is not compatible with FireEye for the moment.
+Check the yara rules from MISP which are valid according to the analyser and export rules in a file. Please note that we also consider import of modules and some other syntax as wrong because it is not compatible with FireEye for the moment.
 ```
 parameter : -l, --last
 parameter : -y YARA_EXPORT_PATH, --yara_export_path  Valid yara rules export file path 
@@ -119,7 +130,7 @@ This file contains yara rule names (1 per line) of rules that should be discarde
 
 **Check the IOC from MISP of the last day and export snort rules to a file**
 
-The snort rules from MISP which are valid according to the analyser. Please note that it modifies the version and the ID in order to have something locally unique that can be sent to a snort. The name of the rule will also have [MISP] as prefix.
+Check the snort rules from MISP which are valid according to the analyser and export rules in a file. Please note that it modifies the version and the ID in order to have something locally unique that can be sent to a snort. The name of the rule will also have [MISP] as prefix.
 ```
 parameter : -l, --last
 parameter : -z SNORT_EXPORT_PATH, --snort_export_path SNORT_EXPORT_PATH  Valid snort rules export file path 
