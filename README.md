@@ -112,7 +112,7 @@ parameter : -p PORT, --port PORT  Syslog server port (udp)
 Check the ioc from MISP which are valid according to the analyser and export ioc to STIX file. (Only hashes for the moment)
 ```
 parameter : -l, --last
-parameter :   -x STIX_EXPORT_PATH, --stix_export_path STIX_EXPORT_PATH  Valid ioc STIX format file path (only for hashes) 
+parameter : -x STIX_EXPORT_PATH, --stix_export_path STIX_EXPORT_PATH  Valid ioc STIX format file path (only for hashes) 
 
 ./checkioc.py -l 1d -o md5 sha1 -x /opt/stix_ioc.xml
 ```
