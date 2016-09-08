@@ -29,6 +29,10 @@ import time
 import socket
 from datetime import timedelta, date, datetime
 from shutil import copyfile
+from cybox.objects.file_object import File
+import stix.utils as utils
+from stix.core import STIXPackage, STIXHeader
+from stix.indicator import Indicator
 import dumbpig
 from cef import *
 from ioctest import *
@@ -51,6 +55,9 @@ MAIL_SERVER = 'smtp.localhost.local'
 yara_processed = set()
 snort_processed = set()
 mailed_attributes = set()
+
+stix_supported = set(['filename|sha1','sha1','filename|md5','md5','filename|sha256','sha256'])
+stix_indicators = set()
 
 def _get_misp_version(misp):
     '''Return the version of misp from the misp instance given.
@@ -97,6 +104,30 @@ def _create_date_list(start, end, delta):
     datelist.append(str(end_date)) # add border date
 
     return datelist
+
+def _get_stix_indicator(ioc, uuid, stix_file):
+    '''Add one ioc to a stix indicator and return the indicator object
+
+    ioc -- contains the ioc value
+    uuid -- uuid of the ioc (attribute uuid)
+    stix_file -- stix file to write
+    '''
+
+    if '|' in ioc: # like in filename|md5
+        ioc = ioc.split('|')[1]
+
+    f = File()
+
+    indicator = Indicator()
+    indicator.title = uuid
+    indicator.description = ("ioc with MISP attribute id : " + uuid)
+    indicator.set_producer_identity("checkioc of tom8941")
+    indicator.set_produced_time(utils.dates.now())
+
+    f.add_hash(ioc)
+    indicator.add_object(f)
+
+    return indicator
 
 def _export_yara(yara_rule,yara_file,yara_except_set):
     '''Write yara_rule in yara_file
@@ -191,7 +222,7 @@ def _send_attributes_mail(mail_address, attribute_set):
     s.sendmail(MAIL_FROM, mail_address, mime_msg.as_string())
     s.quit()
     
-def check_last(misp, last="1d", datasrc_dict=None, allowed_attribute_set=None, quiet=False, attribute_status_dict={}, yara_export_file=None, snort_export_file=None, to_mail=False):
+def check_last(misp, last="1d", datasrc_dict=None, allowed_attribute_set=None, quiet=False, attribute_status_dict={}, stix_export_file=None, yara_export_file=None, snort_export_file=None, to_mail=False):
     '''Check attributes from events published during the last period defined.
 
     misp -- misp instance connected.
@@ -217,6 +248,10 @@ def check_last(misp, last="1d", datasrc_dict=None, allowed_attribute_set=None, q
     for result in check_attributes(json_events,datasrc_dict,allowed_attribute_set, attribute_status_dict):
         if result:
             j+=1
+            if stix_export_file is not None and result['result'] == 'OK':
+                if result['attribute_dict']['type'] in stix_supported:
+                    stix_indicators.add(_get_stix_indicator(result['attribute_dict']['value'],result['attribute_dict']['uuid'], stix_export_file))
+
             if yara_export_file is not None and result['result'] == 'OK':
                 if result['attribute_dict']['type'] == 'yara':
                     _export_yara(result['attribute_dict']['value'], yara_export_file,datasrc_dict['yara_export_except'])
@@ -233,7 +268,7 @@ def check_last(misp, last="1d", datasrc_dict=None, allowed_attribute_set=None, q
     if not quiet:
         print 'Processing of last ' + last + ' : ' + str(j) + ' attributes processed'
 
-def sliced_search(misp, date_from=None, date_to=None, day_slice=1, time_wait=0, datasrc_dict=None, allowed_attribute_set=None, quiet=False, attribute_status_dict={}, yara_export_file=None, snort_export_file=None, to_mail=False):
+def sliced_search(misp, date_from=None, date_to=None, day_slice=1, time_wait=0, datasrc_dict=None, allowed_attribute_set=None, quiet=False, attribute_status_dict={}, stix_export_file=None, yara_export_file=None, snort_export_file=None, to_mail=False):
     '''Check attributes from events created during the given time range.
 
     misp -- misp instance connected.
@@ -266,9 +301,13 @@ def sliced_search(misp, date_from=None, date_to=None, day_slice=1, time_wait=0, 
         for result in check_attributes(json_events,datasrc_dict,allowed_attribute_set, attribute_status_dict):
             if result:
                 j+=1
+                if stix_export_file is not None and result['result'] == 'OK':
+                    if result['attribute_dict']['type'] in stix_supported:
+                        stix_indicators.add(_get_stix_indicator(result['attribute_dict']['value'],result['attribute_dict']['uuid'], stix_export_file))
+
                 if yara_export_file is not None and result['result'] == 'OK':
                     if result['attribute_dict']['type'] == 'yara':
-                        _export_yara(result['attribute_dict']['value'], yara_export_file,datasrc_dict['yara_export_except'])
+                        _export_yara(result['attribute_dict']['value'], yara_export_file, datasrc_dict['yara_export_except'])
 
                 if snort_export_file is not None and result['result'] == 'OK':
                     if result['attribute_dict']['type'] == 'snort':
@@ -278,7 +317,7 @@ def sliced_search(misp, date_from=None, date_to=None, day_slice=1, time_wait=0, 
                     _add_to_mailed_attributes(result['event_dict'], result['attribute_dict'], result['reason'])
 
                 yield get_CEF_syslog(_get_misp_version(misp), result['event_dict'], result['attribute_dict'], result['result'], result['reason'])
-   
+
         if not quiet:
             print 'Processing from ' + datelist[i] + ' to ' + datelist[i+1] + ': ' + str(j) + ' attributes processed'
 
@@ -362,6 +401,7 @@ if __name__ == '__main__':
     parser.add_argument("-t", "--time_wait",default=0,help="time to wait between processing of 2 range of days in seconds")
     parser.add_argument("-i", "--ip", help="Syslog server ip")
     parser.add_argument("-p", "--port", help="Syslog server port")
+    parser.add_argument("-x", "--stix_export_path", help="Valid ioc STIX format file path (only for hashes)")
     parser.add_argument("-y", "--yara_export_path", help="Valid yara rules export file path")
     parser.add_argument("-z", "--snort_export_path", help="Valid snort rules export file path")
     parser.add_argument("-a", "--attribute_tracking", help="file used to track already processed attributes based on its uuid and modification date")
@@ -398,6 +438,11 @@ if __name__ == '__main__':
             with open(args.lock, 'w') as lock_file:
                 lock_file.write('1\n')
             lock_file.close()
+
+    if args.stix_export_path:
+        stix_export_file = open(args.stix_export_path, 'w')
+    else:
+        stix_export_file = None
 
     if args.yara_export_path:
         yara_export_file = open(args.yara_export_path, 'w')
@@ -463,7 +508,7 @@ if __name__ == '__main__':
                 update_tracking(misp,args.start,args.end,args.day_slice,args.time_wait,allowed_attribute_set,args.quiet,attribute_status_dict)
 
     elif args.last is not None:
-        for message in check_last(misp,args.last,datasrc_dict, allowed_attribute_set, args.quiet, attribute_status_dict, yara_export_file, snort_export_file, bool(args.mail)):
+        for message in check_last(misp,args.last,datasrc_dict, allowed_attribute_set, args.quiet, attribute_status_dict, stix_export_file, yara_export_file, snort_export_file, bool(args.mail)):
             if args.verbose and message is not None:
                 print message
             if isinstance(sock,socket.socket) and message is not None:
@@ -472,14 +517,14 @@ if __name__ == '__main__':
     elif args.day_slice is None:
         date_format = "%Y-%m-%d"
         delta = datetime.datetime.strptime(args.end,date_format) - datetime.datetime.strptime(args.start,date_format)
-        for message in sliced_search(misp,args.start,args.end,str(int(delta.days)),0,datasrc_dict, allowed_attribute_set, args.quiet, attribute_status_dict, yara_export_file, snort_export_file, bool(args.mail)):
+        for message in sliced_search(misp,args.start,args.end,str(int(delta.days)),0,datasrc_dict, allowed_attribute_set, args.quiet, attribute_status_dict, stix_export_file, yara_export_file, snort_export_file, bool(args.mail)):
             if args.verbose and message is not None:
                 print message
             if isinstance(sock,socket.socket) and message is not None:
                 sock.send(message)
 
     else:
-        for message in sliced_search(misp,args.start,args.end,args.day_slice,args.time_wait,datasrc_dict, allowed_attribute_set, args.quiet, attribute_status_dict, yara_export_file, snort_export_file, bool(args.mail)):
+        for message in sliced_search(misp,args.start,args.end,args.day_slice,args.time_wait,datasrc_dict, allowed_attribute_set, args.quiet, attribute_status_dict, stix_export_file, yara_export_file, snort_export_file, bool(args.mail)):
             if args.verbose and message is not None:
                 print message
             if isinstance(sock,socket.socket) and message is not None:
@@ -487,6 +532,19 @@ if __name__ == '__main__':
 
     if isinstance(sock,socket.socket):
         sock.close()
+
+    if args.stix_export_path:
+        stix_package = STIXPackage()
+        stix_header = STIXHeader()
+        stix_header.description = "MISP checkioc STIX export"
+        stix_package.stix_header = stix_header
+
+        for indicator in stix_indicators:
+            stix_package.add(indicator)
+
+        stix_export_file.write(stix_package.to_xml())
+
+        stix_export_file.close()
 
     if args.yara_export_path:
         yara_export_file.close()
