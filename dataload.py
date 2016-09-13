@@ -32,8 +32,6 @@ def import_external_sources(attribute_set):
     data['microsoftip'] = frozenset()
     data['alexa_all'] = frozenset() 
     data['alexa_except'] = frozenset()
-    data['alexa_hashes'] = frozenset()
-    data['alexa_except_hashes'] = frozenset()
     data['md5'] = frozenset()
     data['sha1'] = frozenset()
     data['sha256'] = frozenset()
@@ -45,6 +43,7 @@ def import_external_sources(attribute_set):
     data['alexa_all'] = frozenset(line.lower().strip() for line in open(alexa_list_filepath))  #full alexa list
     data['alexa_except'] = frozenset(line.lower().strip() for line in open(alexa_exception_list_filepath)) #dyndns ips
     data['yara_export_except'] = frozenset(line.strip() for line in open(yara_export_exception_list_filepath)) #list of names of yara rules to discard from export
+    data['except_list'] = frozenset(line.lower().strip() for line in open(except_list_filepath))  #ioc exception list
 
     data['alexa'] = data['alexa_all'] - data['alexa_except'] # remove elements from except list
    
