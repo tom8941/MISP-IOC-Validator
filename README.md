@@ -169,6 +169,10 @@ parameter :  -a ATTRIBUTE_TRACKING, --attribute_tracking ATTRIBUTE_TRACKING   th
 ./checkioc.py -l 1d -a /opt/ioc_tracked.txt
 ```
 
+**Exception List**
+
+You can add IOCs in datasrc/except_list.txt if you want to force them as NOK. This feature is not working for YARA and SNORT rules.
+
 ## External Source
 
 - MISP : https://github.com/MISP/MISP
