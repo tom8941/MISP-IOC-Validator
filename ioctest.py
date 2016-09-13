@@ -455,7 +455,7 @@ def _check_hostname(event_dict, attribute_dict, datasrc_dict):
     resultdict['reason'] = 'attribute has been validated'
     return resultdict
 
-def _check_url(event_dict, attribute_dict):
+def _check_url(event_dict, attribute_dict, datasrc_dict):
     '''Check the url validity.
 
     event_dict -- dict that contains event details.
@@ -776,7 +776,7 @@ def check_attribute(event_dict, attribute_dict, datasrc_dict, allowed_attribute_
                         return _check_hostname(event_dict, attribute_dict, datasrc_dict)
 
                     elif attribute_type == 'url':
-                        return _check_url(event_dict, attribute_dict)
+                        return _check_url(event_dict, attribute_dict, datasrc_dict)
 
                     elif attribute_type == 'md5' or attribute_type == 'filename|md5':
                         return _check_md5(event_dict, attribute_dict, datasrc_dict)
