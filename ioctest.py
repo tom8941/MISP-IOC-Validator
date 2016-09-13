@@ -678,15 +678,19 @@ def _get_event_elements(event):
     event_description = event_description[1::] # remove first "
     event_description = event_description[:-1] # remove last "
 
-    event_source = json.dumps(event['Orgc']['name']).encode('utf8').decode('string_escape')
-    event_source = event_source[1::] # remove first "
-    event_source = event_source[:-1] # remove last "
+    event_source_org = json.dumps(event['Org']['name']).encode('utf8').decode('string_escape')
+    event_source_org = event_source_org[1::] # remove first "
+    event_source_org = event_source_org[:-1] # remove last "
+
+    event_source_orgc = json.dumps(event['Orgc']['name']).encode('utf8').decode('string_escape')
+    event_source_orgc = event_source_orgc[1::] # remove first "
+    event_source_orgc = event_source_orgc[:-1] # remove last "
 
     threat_level = json.dumps(event['threat_level_id']).encode('utf8').decode('string_escape')
     threat_level = threat_level[1::] # remove first "
     threat_level = threat_level[:-1] # remove last "
 
-    return dict([('id',event_id),('uuid',event_uuid),('date',event_time),('info',event_description),('Orgcname',event_source),('threat_level_id',threat_level)])
+    return dict([('id',event_id),('uuid',event_uuid),('date',event_time),('info',event_description),('Orgname',event_source_org),('Orgcname',event_source_orgc),('threat_level_id',threat_level)])
 
 def _get_attribute_elements(attribute):
     '''Returns a dict object that contains elements of an attribute.
