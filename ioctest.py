@@ -282,6 +282,11 @@ def _check_ipSrc(event_dict, attribute_dict, datasrc_dict):
     resultdict['event_dict'] = event_dict
     resultdict['attribute_dict'] = attribute_dict
 
+    if value in datasrc_dict['except_list']:
+        resultdict['result'] = 'NOK'
+        resultdict['reason'] = 'belongs to an exception of the list'
+        return resultdict
+
     if _is_ip_private(value):
         resultdict['result'] = 'NOK'
         resultdict['reason'] = 'it is a private ip address'
@@ -318,6 +323,11 @@ def _check_ipDst(event_dict, attribute_dict, datasrc_dict):
     resultdict['event_dict'] = event_dict
     resultdict['attribute_dict'] = attribute_dict
 
+    if value in datasrc_dict['except_list']:
+        resultdict['result'] = 'NOK'
+        resultdict['reason'] = 'belongs to an exception of the list'
+        return resultdict
+
     if _is_ip_private(value):
         resultdict['result'] = 'NOK'
         resultdict['reason'] = 'it is a private ip address'
@@ -353,6 +363,11 @@ def _check_domain(event_dict, attribute_dict, datasrc_dict):
     resultdict = {}
     resultdict['event_dict'] = event_dict
     resultdict['attribute_dict'] = attribute_dict
+
+    if value in datasrc_dict['except_list']:
+        resultdict['result'] = 'NOK'
+        resultdict['reason'] = 'belongs to an exception of the list'
+        return resultdict
 
     if not _is_name_length_valid(value):
         resultdict['result'] = 'NOK'
@@ -401,6 +416,11 @@ def _check_hostname(event_dict, attribute_dict, datasrc_dict):
     resultdict['event_dict'] = event_dict
     resultdict['attribute_dict'] = attribute_dict
 
+    if value in datasrc_dict['except_list']:
+        resultdict['result'] = 'NOK'
+        resultdict['reason'] = 'belongs to an exception of the list'
+        return resultdict
+
     if not _is_name_length_valid(value):
         resultdict['result'] = 'NOK'
         resultdict['reason'] = 'lengths of name and labels are not valid'
@@ -447,6 +467,11 @@ def _check_url(event_dict, attribute_dict):
     resultdict['event_dict'] = event_dict
     resultdict['attribute_dict'] = attribute_dict
 
+    if value in datasrc_dict['except_list']:
+        resultdict['result'] = 'NOK'
+        resultdict['reason'] = 'belongs to an exception of the list'
+        return resultdict
+
     if not _is_protocol_valid(value): 
         resultdict['result'] = 'NOK'
         resultdict['reason'] = 'protocol used is not valid'
@@ -475,6 +500,11 @@ def _check_md5(event_dict, attribute_dict, datasrc_dict):
 
     if '|' in value: #if format is filename|checksum
         value = value.split('|')[1] #retreive only checksum for tests
+
+    if value in datasrc_dict['except_list']:
+        resultdict['result'] = 'NOK'
+        resultdict['reason'] = 'belongs to an exception of the list'
+        return resultdict
         
     if not _is_valid_md5(value):
         resultdict['result'] = 'NOK'
@@ -510,6 +540,11 @@ def _check_sha1(event_dict, attribute_dict, datasrc_dict):
     if '|' in value: #if format is filename|checksum
         value = value.split('|')[1] #retreive only checksum for tests
 
+    if value in datasrc_dict['except_list']:
+        resultdict['result'] = 'NOK'
+        resultdict['reason'] = 'belongs to an exception of the list'
+        return resultdict
+
     if not _is_valid_sha1(value):
         resultdict['result'] = 'NOK'
         resultdict['reason'] = 'checksum is not valid'
@@ -543,6 +578,11 @@ def _check_sha256(event_dict, attribute_dict, datasrc_dict):
 
     if '|' in value: #if format is filename|checksum
         value = value.split('|')[1] #retreive only checksum for tests
+
+    if value in datasrc_dict['except_list']:
+        resultdict['result'] = 'NOK'
+        resultdict['reason'] = 'belongs to an exception of the list'
+        return resultdict
 
     if not _is_valid_sha256(value):
         resultdict['result'] = 'NOK'
