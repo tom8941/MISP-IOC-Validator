@@ -214,7 +214,7 @@ def _send_attributes_mail(mail_address, attribute_set):
     msg += 'Org / OrgC / Event UUID / Attribute UUID / Description / Error message \n\n'
 
     for result in attribute_set:
-       msg += str(result[0]) + ' / ' + str(result[1]) + ' / ' + str(result[2]) + ' / ' + str(result[3]) + '\n'
+       msg += str(result[0]) + ' / ' + str(result[1]) + ' / ' + str(result[2]) + ' / ' + str(result[3]) + ' / ' + str(result[4]) + ' / ' + str(result[5]) + '\n'
 
     mime_msg = MIMEText(msg)
     mime_msg['Subject'] = '[MISP-EU] MISP Quality check'
