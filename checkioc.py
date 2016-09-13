@@ -201,7 +201,7 @@ def _add_to_mailed_attributes(event, attribute, reason):
     attribute -- Attribute to add to the set of mailed attributes.
     reason -- contains the reason of the failure.
     '''
-    mailed_attributes.add((event['uuid'], attribute['uuid'], event['info'], reason))
+    mailed_attributes.add((event['Orgname'], event['Orgcname'], event['uuid'], attribute['uuid'], event['info'], reason))
 
 def _send_attributes_mail(mail_address, attribute_set):
     '''Send the the content of attribute_set by mail to mail_address
@@ -210,8 +210,8 @@ def _send_attributes_mail(mail_address, attribute_set):
     mail_address -- contain the mail address that will recieve the results.
     '''
 
-    msg = 'List of problems with IOCs : \n\n' 
-    msg += 'Event UUID / Attribute UUID / Description / Error message \n\n'
+    msg = 'List of problems with IOCs : \n\n'
+    msg += 'Org / OrgC / Event UUID / Attribute UUID / Description / Error message \n\n'
 
     for result in attribute_set:
        msg += str(result[0]) + ' / ' + str(result[1]) + ' / ' + str(result[2]) + ' / ' + str(result[3]) + '\n'
@@ -221,7 +221,7 @@ def _send_attributes_mail(mail_address, attribute_set):
     s = smtplib.SMTP(MAIL_SERVER)
     s.sendmail(MAIL_FROM, mail_address, mime_msg.as_string())
     s.quit()
-    
+
 def check_last(misp, last="1d", datasrc_dict=None, allowed_attribute_set=None, quiet=False, attribute_status_dict={}, stix_export_file=None, yara_export_file=None, snort_export_file=None, to_mail=False):
     '''Check attributes from events published during the last period defined.
 
