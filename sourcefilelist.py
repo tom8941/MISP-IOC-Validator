@@ -28,3 +28,4 @@ yara_export_exception_list_filepath = 'datasrc/yara-export-discarded.txt' #conta
 md5_list_filepath = 'datasrc/md5.txt'                           #MD5 of known "safe" file
 sha1_list_filepath = 'datasrc/sha1.txt'                         #SHA1 of known "safe" file
 sha256_list_filepath = 'datasrc/sha256.txt'                     #SHA256 of known "safe" file
+except_list_filepath = 'datasrc/except_list.txt'                #List of IOC value to exclude directly (force the check to NOK, this is not working for YARA and SNORT)
